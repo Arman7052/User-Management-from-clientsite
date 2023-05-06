@@ -2,34 +2,37 @@ import { useEffect, useState } from 'react'
 import './App.css'
 
 function App() {
-const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([]);
 
-  const handleSubmit =event => {
+  const handleSubmit = event => {
     event.preventDefault();
     const form = event.target;
-    const name =form.name.value;
+    const name = form.name.value;
     const email = form.email.value;
-    const user ={name, email };
+    const user = { name, email };
     console.log(user);
-    fetch('http://localhost:5000/users',{
-      method:'POSt',
+     fetch('http://localhost:5000/users', {
+      method: 'POST',
       headers: {
         'content-type': 'application/json'
       },
       body: JSON.stringify(user)
-})
-.then(res => res.json())
-.then(data => {
-  console.log('Inside post response ', data);
-})
-   
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        const newUsers = [...users,data] 
+        setUsers(newUsers)
+        form.reset();
+      })
+
   }
 
   useEffect(() => {
     fetch('http://localhost:5000/users')
       .then(res => res.json())
       .then(data => setUsers(data))
-  },[])
+  }, [])
   console.log(users);
 
 
@@ -38,22 +41,22 @@ const [users, setUsers] = useState([]);
 
       <h1>User Management</h1>
 
-        <p>{users.length}</p>
+      <p>{users.length}</p>
 
-        <form onSubmit={handleSubmit} action="">
-          <input type="text" name="name" id="" />
-          <br />
-          <input type="email" name="email" id="" />
-          <br />
-          <input type="submit" value="Add User" />
-        </form>
-        <div>
-          {
-            users.map(user => <p key={user.id}> {user.id} : {user.name} : {user.email} </p>)
-          }
-        </div>
+      <form onSubmit={handleSubmit} action="">
+        <input type="text" name="name" id="" />
+        <br />
+        <input type="email" name="email" id="" />
+        <br />
+        <input type="submit" value="Add User" />
+      </form>
+      <div>
+        {
+          users.map(user => <p key={user.id}> {user.id} : {user.name} : {user.email} </p>)
+        }
+      </div>
     </>
   )
-} 
+}
 
 export default App
