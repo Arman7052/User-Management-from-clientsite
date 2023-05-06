@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import './App.css'
 
 function App() {
-  const [users, setUsers] = useState([]);
+const [users, setUsers] = useState([]);
 
   const handleSubmit =event => {
     event.preventDefault();
@@ -30,17 +30,21 @@ function App() {
       .then(data => setUsers(data))
   },[])
   console.log(users);
+
+
   return (
     <>
 
       <h1>User Management</h1>
+
         <p>{users.length}</p>
+
         <form onSubmit={handleSubmit} action="">
           <input type="text" name="name" id="" />
           <br />
           <input type="email" name="email" id="" />
           <br />
-          <input type="submit" value="Add user" />
+          <input type="submit" value="Add User" />
         </form>
         <div>
           {
